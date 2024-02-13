@@ -1,5 +1,6 @@
-local json = require ('Discraft/json_utils')
-local colors = require ('Discraft/color_utils')
+local json = require('Discraft/json_utils')
+local colors = require('Discraft/color_utils')
+local player = require('Discraft/player_utils')
 
 local discord = {}
 
@@ -176,6 +177,9 @@ function discord.start()
                     }
 
                     ws.send(json.encode(data))
+
+                    -- Update presence
+                    discord.update_presence("with " .. player.get_player_count() .. " players")
                 end
 
                 -- Store the sequence number
@@ -189,6 +193,28 @@ function discord.start()
     end
 
     parallel.waitForAll(heartbeat, socketMessageReceive)
+end
+
+function discord.update_presence(presence)
+    if ws then
+        print("Updating presence to " .. presence)
+        local data = {}
+        data.op = 3
+        data.d = {}
+        data.d.since = textutils.json_null
+        data.d.activities = {
+            {
+                name = presence,
+                type = 0,
+            },
+        }
+        data.d.status = "online"
+        data.d.afk = false
+
+        ws.send(json.encode(data))
+    else
+        print("Websocket not connected, unable to update presence")
+    end
 end
 
 return discord
