@@ -19,7 +19,7 @@ local raw_github = "https://raw.githubusercontent.com/ColdUnwanted/Discraft/mast
 local main_script = raw_github .. "main.lua"
 local discord_script = raw_github .. "Discraft/discord_utils.lua"
 local color_script = raw_github .. "Discraft/color_utils.lua"
-local json_script = raw_github .. "Discraft/json_utils.json"
+local json_script = raw_github .. "Discraft/json_utils.lua"
 local message_script = raw_github .. "Discraft/message_utils.lua"
 
 -- Initial install of script
