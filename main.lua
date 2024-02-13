@@ -20,7 +20,7 @@ if not player_success then
 end
 
 -- Script id for installation
-local raw_github = "https://raw.githubusercontent.com/ColdUnwanted/Discraft/master/"
+local raw_github = "https://raw.githubusercontent.com/ColdUnwanted/Discraft/V2/"
 local main_script = raw_github .. "main.lua"
 local discord_script = raw_github .. "Discraft/discord_utils.lua"
 local color_script = raw_github .. "Discraft/color_utils.lua"
