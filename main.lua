@@ -1,6 +1,18 @@
-local discord = require("Discraft/discord_utils") or nil
-local colors = require("Discraft/color_utils") or nil
-local message = require("Discraft/message_utils") or nil
+local discord_success, discord = pcall(require, "Discraft/discord_utils")
+local colors_success, colors = pcall(require, "Discraft/color_utils")
+local message_success, message = pcall(require, "Discraft/message_utils")
+
+if not discord_success then
+    discord = nil
+end
+
+if not colors_success then
+    colors = nil
+end
+
+if not message_success then
+    message = nil
+end
 
 -- Script id for installation
 local raw_github = "https://raw.githubusercontent.com/ColdUnwanted/Discraft/master/"
