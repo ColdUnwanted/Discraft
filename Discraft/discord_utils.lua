@@ -134,7 +134,7 @@ function discord.start()
     ws = assert(http.websocket(ws .. "/?v=10&encoding=json"))
 
     local ws_hello = json.decode(ws.receive())
-    heartbeat_interval = (ws_hello.d.heartbeat_interval / 1000) * 0.75
+    heartbeat_interval = (ws_hello.d.heartbeat_interval / 1000) * 0.5
     sequence = ws_hello.s
 
     print("Connected to Discord Gateway")
@@ -196,7 +196,7 @@ end
 function discord.update_presence(presence)
     if ws ~= nil then
         print("Updating presence to " .. presence)
-        
+
         local data = {}
         data.op = 3
         data.d = {}
