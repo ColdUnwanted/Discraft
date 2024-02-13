@@ -42,6 +42,15 @@ if not discord_success and not colors_success and not message_success then
     shell.run("wget", message_script, "Discraft/message_utils.lua")
 
     if not has_existing_install and not fs.exists("config.json") then
+        -- Generate a new config file
+        local config = {
+            bot_token = "",
+            channel_id = "",
+            message_name = "Discraft",
+        }
+
+        file_write("config.json", textutils.serialiseJSON(config))
+
         print("Opening config file for editing...")
 
         sleep(2.5)
@@ -63,8 +72,6 @@ if not discord.check_connection() then
     return
 end
 
--- 
-
 -- On ready event
 discord.on("READY", function(data)
     -- Send a message to the channel
@@ -73,8 +80,13 @@ end)
 
 -- On message event
 discord.on("MESSAGE_CREATE", function(msg)
+    -- Check if the message is from the bot
+    if msg.author.bot then
+        return
+    end
+
     -- Send message to in-game chat
-    message.send(msg)
+    message.send(msg.content)
 end)
 
-discord.start()
+parallel.waitForAll(discord.start, message.event)

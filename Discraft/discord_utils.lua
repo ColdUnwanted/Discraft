@@ -133,12 +133,10 @@ function discord.start()
     ws = assert(http.websocket(ws .. "/?v=10&encoding=json"))
 
     local ws_hello = json.decode(ws.receive())
-    heartbeat_interval = ws_hello.d.heartbeat_interval / 1000
+    heartbeat_interval = (ws_hello.d.heartbeat_interval / 1000) - 1
     sequence = ws_hello.s
 
     local function heartbeat()
-        local send_once = false
-
         while ws do
             local data = {}
             data.op = 1

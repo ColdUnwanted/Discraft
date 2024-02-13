@@ -5,7 +5,7 @@ local colors = require("Discraft/color_utils")
 local message = {}
 
 -- Connect chatbox
-local chatbox = peripheral.find("chatbox")
+local chatbox = peripheral.find("chatBox")
 
 if not chatbox then
     error("No chatbox found on any side of the computer!")
@@ -30,20 +30,20 @@ else
     error('Config file not found')
 end
 
-function message.send(message)
+function message.send(msg)
     -- Pause for a moment to avoid chatbox spam
     sleep(1)
 
-    chatbox.sendMessage(message, message_name, "<>", "&b")
+    chatbox.sendMessage(msg, message_name, "[]")
 end
 
 function message.event()
     while true do
-        local event, username, message, uuid, isHidden = os.pullEvent("chat")
+        local event, username, msg, uuid, isHidden = os.pullEvent("chat")
 
         -- Send message to Discord
-        local discord_message = username .. ": " .. message
-        discord.send_embed("Discord Message", discord_message)
+        local discord_message = username .. ": " .. msg
+        discord.send_embed("In-Game Message", discord_message)
     end
 end
 
