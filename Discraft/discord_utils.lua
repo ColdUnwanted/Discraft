@@ -133,7 +133,7 @@ function discord.start()
     ws = assert(http.websocket(ws .. "/?v=10&encoding=json"))
 
     local ws_hello = json.decode(ws.receive())
-    heartbeat_interval = ws_hello.d.heartbeat_interval / 1000
+    heartbeat_interval = (ws_hello.d.heartbeat_interval / 1000) * 0.75
     sequence = ws_hello.s
 
     print("Connected to Discord Gateway")
@@ -145,6 +145,7 @@ function discord.start()
             data.d = sequence or textutils.json_null
 
             ws.send(json.encode(data))
+            print("Heartbeat sent")
             os.sleep(heartbeat_interval)
         end
     end
@@ -160,6 +161,7 @@ function discord.start()
 
             if json_data.op == 11 then
                 if not send_once then
+                    print("Sending identify payload")
                     send_once = true
 
                     local data = {}
@@ -177,10 +179,10 @@ function discord.start()
                 end
 
                 -- Store the sequence number
-                sequence = json_data.s
+                sequence = json_data.s or textutils.json_null
             elseif json_data.op == 0 then
                 print("New event received")
-                sequence = json_data.s
+                sequence = json_data.s or textutils.json_null
                 discord.invoke(json_data.t, json_data.d)
             end
         end
