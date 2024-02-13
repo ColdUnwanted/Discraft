@@ -12,7 +12,7 @@ if not playerDetector then
 end
 
 function player.get_player_count()
-    local players = playerDetector.getPlayers()
+    local players = playerDetector.getOnlinePlayers()
 
     -- Count players
     local count = 0
@@ -50,13 +50,13 @@ function player.initial_set_presence()
     while not discord.ready do
         os.sleep(1)
     end
-
+    print(discord.ready)
     -- Set initial presence
     discord.update_presence("with " .. player.get_player_count() .. " players")
 end
 
 function player.event()
-    parallel.waitForAll(player.join_event, player.leave_event. player.intial_set_presence)
+    parallel.waitForAll(player.join_event, player.leave_event, player.initial_set_presence)
 end
 
 return player
