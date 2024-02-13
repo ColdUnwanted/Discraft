@@ -37,7 +37,7 @@ function message.send(msg)
     -- local formatted_msg = {{ text = msg }}
 
     -- chatbox.sendFormattedMessage(json.encode(formatted_msg), "Dev", "&4&l" .. message_name, "<>", "&c&l")
-    chatbox.sendMessage(msg, message_name, "[]")
+    chatbox.sendMessage(msg, message_name, "<>")
 end
 
 function message.event()

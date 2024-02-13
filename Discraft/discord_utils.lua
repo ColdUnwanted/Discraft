@@ -133,7 +133,7 @@ function discord.start()
     ws = assert(http.websocket(ws .. "/?v=10&encoding=json"))
 
     local ws_hello = json.decode(ws.receive())
-    heartbeat_interval = (ws_hello.d.heartbeat_interval / 1000) - 1
+    heartbeat_interval = ws_hello.d.heartbeat_interval / 1000
     sequence = ws_hello.s
 
     print("Connected to Discord Gateway")
@@ -158,21 +158,26 @@ function discord.start()
 
             local json_data = json.decode(msg)
 
-            if json_data.op == 11 and not send_once then
-                send_once = true
+            if json_data.op == 11 then
+                if not send_once then
+                    send_once = true
 
-                local data = {}
-                data.op = 2
-                data.d = {}
-                data.d.token = discord_token
-                data.d.intents = 33281
-                data.d.properties = {
-                    ["os"] = "windows",
-                    ["browser"] = "CC",
-                    ["device"] = "CC"
-                }
+                    local data = {}
+                    data.op = 2
+                    data.d = {}
+                    data.d.token = discord_token
+                    data.d.intents = 33281
+                    data.d.properties = {
+                        ["os"] = "windows",
+                        ["browser"] = "CC",
+                        ["device"] = "CC"
+                    }
 
-                ws.send(json.encode(data))
+                    ws.send(json.encode(data))
+                end
+
+                -- Store the sequence number
+                sequence = json_data.s
             elseif json_data.op == 0 then
                 print("New event received")
                 sequence = json_data.s
