@@ -34,10 +34,15 @@ function message.send(msg)
     -- Pause for a moment to avoid chatbox spam
     sleep(1)
 
+    -- local formatted_msg = {{ text = msg }}
+
+    -- chatbox.sendFormattedMessage(json.encode(formatted_msg), "Dev", "&4&l" .. message_name, "<>", "&c&l")
     chatbox.sendMessage(msg, message_name, "[]")
 end
 
 function message.event()
+    print("Listening for chat events...")
+
     while true do
         local event, username, msg, uuid, isHidden = os.pullEvent("chat")
 

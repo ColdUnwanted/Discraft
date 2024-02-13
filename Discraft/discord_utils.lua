@@ -136,6 +136,8 @@ function discord.start()
     heartbeat_interval = (ws_hello.d.heartbeat_interval / 1000) - 1
     sequence = ws_hello.s
 
+    print("Connected to Discord Gateway")
+
     local function heartbeat()
         while ws do
             local data = {}
@@ -172,6 +174,8 @@ function discord.start()
 
                 ws.send(json.encode(data))
             elseif json_data.op == 0 then
+                print("New event received")
+                sequence = json_data.s
                 discord.invoke(json_data.t, json_data.d)
             end
         end
