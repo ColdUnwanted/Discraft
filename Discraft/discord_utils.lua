@@ -16,7 +16,7 @@ local discord_channel_id = nil
 
 -- Read the token and channel id from the config file
 if fs.exists('config.json') then
-    print('Loading settings from config file...')
+    print('Loading discord related settings from config file...')
 
     local config_file = fs.open('config.json', 'r')
     local config = json.decode(config_file.readAll())

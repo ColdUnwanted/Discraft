@@ -15,7 +15,7 @@ end
 -- Fetch configuration
 local message_name = "Discraft"
 if fs.exists('config.json') then
-    print('Loading settings from config file...')
+    print('Loading message related settings from config file...')
 
     local config_file = fs.open('config.json', 'r')
     local config = json.decode(config_file.readAll())
