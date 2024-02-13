@@ -196,6 +196,7 @@ end
 function discord.update_presence(presence)
     if ws ~= nil then
         print("Updating presence to " .. presence)
+        
         local data = {}
         data.op = 3
         data.d = {}

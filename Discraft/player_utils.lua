@@ -47,10 +47,10 @@ end
 
 function player.initial_set_presence()
     -- Wait for discord to be ready
-    while not discord.ready do
+    while not discord.ready() do
         os.sleep(1)
     end
-    print(discord.ready)
+    
     -- Set initial presence
     discord.update_presence("with " .. player.get_player_count() .. " players")
 end
