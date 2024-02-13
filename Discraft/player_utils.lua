@@ -45,8 +45,18 @@ function player.leave_event()
     end
 end
 
+function player.initial_set_presence()
+    -- Wait for discord to be ready
+    while not discord.ready do
+        os.sleep(1)
+    end
+
+    -- Set initial presence
+    discord.update_presence("with " .. player.get_player_count() .. " players")
+end
+
 function player.event()
-    parallel.waitForAll(player.join_event, player.leave_event)
+    parallel.waitForAll(player.join_event, player.leave_event. player.intial_set_presence)
 end
 
 return player

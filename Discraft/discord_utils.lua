@@ -1,6 +1,5 @@
 local json = require('Discraft/json_utils')
 local colors = require('Discraft/color_utils')
-local player = require('Discraft/player_utils')
 
 local discord = {}
 
@@ -101,6 +100,7 @@ local Events = {}
 local sequence = nil
 local heartbeat_interval = 5
 local send_once = false
+local ready = false
 
 function discord.on(event,callback)
     -- Check if there is a table in Events[event]
@@ -177,9 +177,7 @@ function discord.start()
                     }
 
                     ws.send(json.encode(data))
-
-                    -- Update presence
-                    discord.update_presence("with " .. player.get_player_count() .. " players")
+                    ready = true
                 end
 
                 -- Store the sequence number
@@ -215,6 +213,10 @@ function discord.update_presence(presence)
     else
         print("Websocket not connected, unable to update presence")
     end
+end
+
+function discord.ready()
+    return ready
 end
 
 return discord
