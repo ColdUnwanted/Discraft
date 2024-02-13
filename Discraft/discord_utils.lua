@@ -1,5 +1,5 @@
-local json = require ('Discraft/json_utils')
-local colors = require ('Discraft/color_utils')
+local json = require('Discraft/json_utils')
+local colors = require('Discraft/color_utils')
 
 local discord = {}
 
@@ -100,6 +100,7 @@ local Events = {}
 local sequence = nil
 local heartbeat_interval = 5
 local send_once = false
+local ready = false
 
 function discord.on(event,callback)
     -- Check if there is a table in Events[event]
@@ -176,6 +177,7 @@ function discord.start()
                     }
 
                     ws.send(json.encode(data))
+                    ready = true
                 end
 
                 -- Store the sequence number
@@ -189,6 +191,33 @@ function discord.start()
     end
 
     parallel.waitForAll(heartbeat, socketMessageReceive)
+end
+
+function discord.update_presence(presence)
+    if ws ~= nil then
+        print("Updating presence to " .. presence)
+        
+        local data = {}
+        data.op = 3
+        data.d = {}
+        data.d.since = textutils.json_null
+        data.d.activities = {
+            {
+                name = presence,
+                type = 0,
+            },
+        }
+        data.d.status = "online"
+        data.d.afk = false
+
+        ws.send(json.encode(data))
+    else
+        print("Websocket not connected, unable to update presence")
+    end
+end
+
+function discord.ready()
+    return ready
 end
 
 return discord
