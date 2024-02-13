@@ -102,6 +102,28 @@ local heartbeat_interval = 5
 local send_once = false
 local ready = false
 
+function discord.ws_send(data)
+    if not ws then
+        print("Websocket not connected, unable to send data")
+        return
+    end
+
+    local success, err = pcall(function()
+        ws.send(json.encode(data))
+    end)
+
+    if not success then
+        -- Reconnect to the gateway
+        ws.close()
+        ws = nil
+        ready = false
+        send_once = false
+
+        print("Reconnecting to Discord Gateway")
+        discord.start()
+    end
+end
+
 function discord.on(event,callback)
     -- Check if there is a table in Events[event]
     if not Events[event] then
@@ -145,7 +167,7 @@ function discord.start()
             data.op = 1
             data.d = sequence or textutils.json_null
 
-            ws.send(json.encode(data))
+            discord.ws_send(data)
             print("Heartbeat sent")
             os.sleep(heartbeat_interval)
         end
@@ -176,7 +198,7 @@ function discord.start()
                         ["device"] = "CC"
                     }
 
-                    ws.send(json.encode(data))
+                    discord.ws_send(data)
                     ready = true
                 end
 
@@ -210,7 +232,7 @@ function discord.update_presence(presence)
         data.d.status = "online"
         data.d.afk = false
 
-        ws.send(json.encode(data))
+        discord.ws_send(data)
     else
         print("Websocket not connected, unable to update presence")
     end
