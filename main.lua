@@ -23,7 +23,7 @@ local json_script = raw_github .. "Discraft/json_utils.json"
 local message_script = raw_github .. "Discraft/message_utils.lua"
 
 -- Initial install of script
-if not discord and not colors_success and not message_success then
+if not discord_success and not colors_success and not message_success then
     print("Initializing Discraft...")
 
     -- Check if it's first time install
