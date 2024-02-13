@@ -48,3 +48,5 @@ end
 function player.event()
     parallel.waitForAll(player.join_event, player.leave_event)
 end
+
+return player

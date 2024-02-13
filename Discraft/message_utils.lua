@@ -1,4 +1,4 @@
-local json = require ('Discraft/json_utils')
+local json = require('Discraft/json_utils')
 local discord = require("Discraft/discord_utils")
 
 local message = {}
