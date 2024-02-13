@@ -1,3 +1,7 @@
+local discord = require("Discraft/discord_utils") or nil
+local colors = require("Discraft/color_utils") or nil
+local message = require("Discraft/message_utils") or nil
+
 -- Script id for installation
 local raw_github = "https://raw.githubusercontent.com/ColdUnwanted/Discraft/master/"
 local main_script = raw_github .. "main.lua"
@@ -38,10 +42,6 @@ end
 
 -- Delay startup of computer by 5 seconds
 sleep(5)
-
-local discord = require("Discraft/discord_utils")
-local colors = require("Discraft/color_utils")
-local message = require("Discraft/message_utils")
 
 -- Check if discord connection can be established
 if not discord.check_connection() then
