@@ -20,8 +20,10 @@ local main_script = raw_github .. "main.lua"
 local discord_script = raw_github .. "Discraft/discord_utils.lua"
 local color_script = raw_github .. "Discraft/color_utils.lua"
 local json_script = raw_github .. "Discraft/json_utils.json"
+local message_script = raw_github .. "Discraft/message_utils.lua"
 
 -- Initial install of script
+print(arg[0])
 if arg[1] == "install" then
     print("Initializing Discraft...")
 
@@ -38,6 +40,7 @@ if arg[1] == "install" then
     shell.run("wget", discord_script, "Discraft/discord_utils.lua")
     shell.run("wget", color_script, "Discraft/color_utils.lua")
     shell.run("wget", json_script, "Discraft/json_utils.lua")
+    shell.run("wget", message_script, "Discraft/message_utils.lua")
 
     if not has_existing_install and not fs.exists("config.json") then
         print("Opening config file for editing...")
