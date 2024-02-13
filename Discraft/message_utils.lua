@@ -1,6 +1,5 @@
 local json = require ('Discraft/json_utils')
 local discord = require("Discraft/discord_utils")
-local colors = require("Discraft/color_utils")
 
 local message = {}
 

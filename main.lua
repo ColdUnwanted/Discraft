@@ -1,6 +1,7 @@
 local discord_success, discord = pcall(require, "Discraft/discord_utils")
 local colors_success, colors = pcall(require, "Discraft/color_utils")
 local message_success, message = pcall(require, "Discraft/message_utils")
+local player_success, player = pcall(require, "Discraft/player_utils")
 
 if not discord_success then
     discord = nil
@@ -14,6 +15,10 @@ if not message_success then
     message = nil
 end
 
+if not player_success then
+    player = nil
+end
+
 -- Script id for installation
 local raw_github = "https://raw.githubusercontent.com/ColdUnwanted/Discraft/master/"
 local main_script = raw_github .. "main.lua"
@@ -21,9 +26,10 @@ local discord_script = raw_github .. "Discraft/discord_utils.lua"
 local color_script = raw_github .. "Discraft/color_utils.lua"
 local json_script = raw_github .. "Discraft/json_utils.lua"
 local message_script = raw_github .. "Discraft/message_utils.lua"
+local player_script = raw_github .. "Discraft/player_utils.lua"
 
 -- Initial install of script
-if not discord_success and not colors_success and not message_success then
+if not discord_success and not colors_success and not message_success and not player_success then
     print("Initializing Discraft...")
 
     -- Check if it's first time install
@@ -40,6 +46,7 @@ if not discord_success and not colors_success and not message_success then
     shell.run("wget", color_script, "Discraft/color_utils.lua")
     shell.run("wget", json_script, "Discraft/json_utils.lua")
     shell.run("wget", message_script, "Discraft/message_utils.lua")
+    shell.run("wget", player_script, "Discraft/player_utils.lua")
 
     if not has_existing_install and not fs.exists("config.json") then
         -- Generate a new config file
@@ -89,4 +96,4 @@ discord.on("MESSAGE_CREATE", function(msg)
     message.send(msg.content)
 end)
 
-parallel.waitForAll(discord.start, message.event)
+parallel.waitForAll(discord.start, message.event, player.event)
